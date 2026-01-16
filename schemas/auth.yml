@@ -1,0 +1,130 @@
+AuthSignupRequest:
+  type: object
+  required:
+    - name
+    - email
+    - password
+  properties:
+    name:
+      type: string
+      minLength: 3
+      maxLength: 100
+      description: User's full name
+      example: John Doe
+    email:
+      type: string
+      format: email
+      description: User's email address
+      example: john@example.com
+    password:
+      type: string
+      minLength: 6
+      maxLength: 100
+      description: User's password (at least 6 characters)
+      example: password123
+
+AuthSignupResponse:
+  type: object
+  properties:
+    message:
+      type: string
+      example: User registered Successfully
+    success:
+      type: boolean
+      example: true
+
+AuthLoginRequest:
+  type: object
+  required:
+    - email
+    - password
+  properties:
+    email:
+      type: string
+      format: email
+      description: User's email address
+      example: john@example.com
+    password:
+      type: string
+      minLength: 6
+      maxLength: 100
+      description: User's password
+      example: password123
+
+AuthLoginResponse:
+  type: object
+  properties:
+    message:
+      type: string
+      example: Login successful
+    success:
+      type: boolean
+      example: true
+    jwtToken:
+      type: string
+      description: JWT token for authenticated requests
+      example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+    email:
+      type: string
+      example: john@example.com
+    name:
+      type: string
+      example: John Doe
+
+AuthValidationErrorResponse:
+  type: object
+  properties:
+    message:
+      type: string
+      example: Bad Request
+    error:
+      type: object
+      description: Joi validation error details
+
+AuthErrorResponse:
+  type: object
+  properties:
+    message:
+      type: string
+      example: Internal Server Error
+    success:
+      type: boolean
+      example: false
+
+AuthUserExistsResponse:
+  type: object
+  properties:
+    message:
+      type: string
+      example: User already exists, so you can login
+    success:
+      type: boolean
+      example: false
+
+AuthInvalidPasswordResponse:
+  type: object
+  properties:
+    message:
+      type: string
+      example: Invalid password
+    success:
+      type: boolean
+      example: false
+
+AuthUserNotFoundResponse:
+  type: object
+  properties:
+    message:
+      type: string
+      example: Auth failed or not exists
+    success:
+      type: boolean
+      example: false
+
+AuthUnauthorizedResponse:
+  type: object
+  properties:
+    message:
+      type: string
+      example: unauthorized ,jwt token is required
+

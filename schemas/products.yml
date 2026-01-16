@@ -1,0 +1,37 @@
+GetProductsResponse:
+  type: object
+  properties:
+    message:
+      type: string
+      example: Products fetched successfully
+    products:
+      type: array
+      items:
+        $ref: '#/Product'
+
+
+Product:
+  type: object
+  properties:
+    id:
+      type: string
+      description: Product ID
+      example: "1"
+    name:
+      type: string
+      description: Product name
+      example: Laptop
+    price:
+      type: number
+      format: float
+      description: Product price
+      example: 999.99
+    description:
+      type: string
+      description: Product description
+      example: High performance laptop with 16GB RAM
+  required:
+    - id
+    - name
+    - price
+    - description

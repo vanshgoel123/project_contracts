@@ -1,0 +1,117 @@
+openapi: 3.0.0
+info:
+  title: Authentication API
+  version: 1.0.0
+  description: API for user authentication
+servers:
+  - url: http://localhost:8000
+    description: Development server
+
+paths:
+  /auth/signup:
+    post:
+      summary: User signup with email and password
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/auth.yml#/AuthSignupRequest'
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/auth.yml#/AuthSignupResponse'
+        '400':
+          description: Bad Request - AuthValidation failed
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/auth.yml#/AuthValidationErrorResponse'
+        '409':
+          description:  User already exists
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/auth.yml#/AuthUserExistsResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/auth.yml#/AuthErrorResponse'
+
+  /auth/login:
+    post:
+      summary: User login with email and password
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './schemas/auth.yml#/AuthLoginRequest'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/auth.yml#/AuthLoginResponse'
+        '400':
+          description: Bad Request - AuthValidation failed
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/auth.yml#/AuthValidationErrorResponse'
+        '401':
+          description:  Invalid password
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/auth.yml#/AuthInvalidPasswordResponse'
+        '403':
+          description:  User not found or auth failed
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/auth.yml#/AuthUserNotFoundResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/auth.yml#/AuthErrorResponse'
+
+  /products:
+    get:
+      summary: Get all products (requires authentication)
+      tags:
+        - Products
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Products retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/products.yml#/GetProductsResponse'
+        '403':
+          description: Forbidden - JWT token required, expired, or invalid
+          content:
+            application/json:
+              schema:
+                $ref: './schemas/auth.yml#/AuthUnauthorizedResponse'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: JWT token in Authorization header
