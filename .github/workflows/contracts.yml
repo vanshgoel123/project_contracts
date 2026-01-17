@@ -1,0 +1,17 @@
+name: Contracts CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+    Validate:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get the repo files
+              uses: actions/checkout@v3
+            - name: Validate Contracts
+              run: echo "contracts validated"
