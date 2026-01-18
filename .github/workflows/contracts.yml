@@ -20,4 +20,4 @@ jobs:
             - name: Install swagger cli
               run: npm install -g swagger-cli
             - name: Validate OpenAPI contracts
-              run: swagger-cli validate ./contracts/api.yaml
+              run: swagger-cli validate ./api.yaml
