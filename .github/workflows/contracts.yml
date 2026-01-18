@@ -13,5 +13,11 @@ jobs:
         steps:
             - name: Get the repo files
               uses: actions/checkout@v3
-            - name: Validate Contracts
-              run: echo "contracts validated"
+            - name: Download and setup nodejs
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '18'
+            - name: Install swagger cli
+              run: npm install -g swagger-cli
+            - name: Validate OpenAPI contracts
+              run: swagger-cli validate ./contracts/api.yaml
